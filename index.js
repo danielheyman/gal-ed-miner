@@ -13,7 +13,7 @@ function scraper(counter, callback) {
     var path = resultsFile(counter);
     if (!fs.existsSync(path)) {
         request('http://www.gal-ed.co.il/nachal/info/n_show.aspx?id=' + counter, function (error, response, html) {
-            if (error || response.statusCode !== 200) return callback(err, null);
+            if (error || response.statusCode !== 200) return callback('Error: ' + error, null);
             
             var $ = cheerio.load(html);
             
@@ -32,7 +32,10 @@ function scraper(counter, callback) {
             console.log(counter);
             
             jsonfile.writeFile(resultsFile(counter), data, function (err) { });
-            callback(null, null);
+            
+            setTimeout(function() {
+                callback(null, null);
+            }, 300);
         });
     }
     else callback(null, null);
@@ -42,25 +45,22 @@ var batch = 50;
 
 
 function run(counter) {
-    if(counter > 42500) count();
+    if(counter > 42500) return count();
     
     var range = Array.apply(null, {length: batch}).map(Number.call, function(n) { return Number(n) + counter; });
     async.map(range, scraper,
-    function(err, results) {
-        if(err) {
-            console.log('Error: ' + err);
-            console.log('Delaying a minute');
-            setTimeout(function() {
-                run(counter + batch);
-            }, 60 * 1000);
-        } else {
-            setTimeout(function() {
-                run(counter + batch);
-            }, 200);
+        function(err, results) {
+            if(err) {
+                console.log(err);
+                console.log('Delaying 60 seconds.');
+                setTimeout(function() {
+                    run(counter);
+                }, 60 * 1000);
+            } 
+            else run(counter + batch);
         }
-        
-    });
-    
+    );
+
 }
 
 function count() {
