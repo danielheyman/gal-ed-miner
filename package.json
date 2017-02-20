@@ -1,0 +1,29 @@
+{
+  "name": "estate-miner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielheyman/estate-miner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielheyman/estate-miner/issues"
+  },
+  "homepage": "https://github.com/danielheyman/estate-miner#readme",
+  "dependencies": {
+    "async": "^2.1.4",
+    "cheerio": "^0.22.0",
+    "csv-builder": "0.0.4",
+    "express": "^4.14.0",
+    "jsonfile": "^2.4.0",
+    "moment": "^2.17.1",
+    "msexcel-builder": "0.0.2",
+    "request": "^2.79.0"
+  }
+}
